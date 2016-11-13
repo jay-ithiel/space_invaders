@@ -24,3 +24,59 @@ This project will also include:
 This app will will consist of a single screen with the game board, game controls and nav links to the Github and 'About' modal. Game controls will include Start, Pause, and Reset buttons.
 
 ![wireframes](wireframes/space-invaders.png)
+
+
+### Architecture & Technologies
+
+This project will be implemented with the following technologies:
+
+- Vanilla Javascript and jQuery
+- Webpack
+
+There will be six scripts involved in this project:
+
+'board.js': this script will handle the logic for creating and updating the 'space-invaders' elements and rendering them to the DOM.
+
+'game.js': this script will handle the behind the scenes game logic. Player score, remaining lives, etc. The game will have four states:
+- Welcome screen
+- Play screen
+- Pause (The pause screen will be 'pushed' on top of the current screen)
+- Lose screen
+
+'moving_object.js': this script will hold the base logic of a moving object. All moving objects(ships, bullets) will inherit from this class.
+
+'ship.js': this script is the blueprint of all ships, both human players and computer 'space-invaders'. A ship object will hold a 'type' (Defender(user), Grunt, Soldier, Invader and UFO).
+
+'bullet.js': this simple script will hold all information about the bullet.
+
+'shield.js': this script will hold the information of the shields the user may hide behind, as well as the logic for taking damage from each bullet, both player and computer bullets.
+
+### Implementation Timeline
+
+**Day 1**: Setup all of the essential Node modules. Create 'webpack.config.js' and 'package.json'. Write an entry file, and bare bones of the scripts written above. Create the welcome, pause, restart and lose states. Goals for the day:
+
+- [ ] Create all of the essential states.
+- [ ] Create and render the shields and user ship on the canvas
+
+**Day 2**: Create the bullet class and connect it to the ship class, allowing ships to fire at will. Add key listeners to the defender ship, allowing the user to move the ship sideways and fire bullets at the enemy. Goals for the day:
+
+- [ ] Create and render bullets
+- [ ] Allow ships to fire bullets
+- [ ] Add logic to handle deterioration of shields on impact with a bullet.
+- [ ] Add key listeners for 'defender' ship so users may control the movement.
+
+**Day 3**: Build the logic for enemy ships, having them fire at random, reversing the x-axis direction when the enemy ships reach the end bounds of the board, and moving down one grid and continuing the cycle. Also increment the movement speed of enemy invaders as the herd thins out. Goals for the day:
+
+- [ ] Create and render enemy ships on canvas.
+- [ ] Allow enemy ships to move and fire bullets.
+- [ ] Space Invaders move faster with each one you kill.
+
+**Day 4**: Add music and sounds (Refer to synth). Add mystery UFO and styling to your product, so that it looks polished and professional.
+
+- [ ] Add sound effects to bullets being fired, bullets on impact, and music.
+- [ ] Create mystery UFO
+- [ ] Add sufficient styling to product
+
+### Bonus
+- [ ] Add UFO boss that shows up every once in a while that shoots an array of bullets
+- [ ] Add Boss at level 5 and 10 
