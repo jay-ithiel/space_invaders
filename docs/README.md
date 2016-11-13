@@ -2,7 +2,7 @@
 
 ### Background
 
-Space Invaders is a well-known classic arcade game. The goal of the game is to defend against the hostile army of alien invaders by shooting them with your spaceship.
+Space Invaders is a well-known classic arcade game. The goal of the game is to defend against the hostile army of alien invaders by shooting them with your spaceship. The player starts the game with three lives, but gains a life at the end of each level. This rendition will be written in Javascript. Enjoy!
 
 ### Functionality and MVP (Minimum Viable Product)
 
@@ -79,4 +79,4 @@ There will be six scripts involved in this project:
 
 ### Bonus
 - [ ] Add UFO boss that shows up every once in a while that shoots an array of bullets
-- [ ] Add Boss at level 5 and 10 
+- [ ] Add Boss at level 5 and 10
