@@ -23,4 +23,4 @@ This project will also include:
 
 This app will will consist of a single screen with the game board, game controls and nav links to the Github and 'About' modal. Game controls will include Start, Pause, and Reset buttons.
 
-![wireframes](docs/wireframes/space-invaders.png)
+![wireframes](wireframes/space-invaders.png)
