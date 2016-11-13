@@ -8,3 +8,7 @@ body {
 #game-canvas {
   background-color: #000;
 }
+
+.sprite {
+  display: none;
+}

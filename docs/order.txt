@@ -1,0 +1,7 @@
+# Create and render ship
+  - Use HTML canvas drawImage to render the ships and shields
+# Add key listeners to ship so it may move around by arrow keys
+# Create and render shields
+# Create bullets and allow ship to fire bullets
+# Create enemy ships
+# Create mystery UFO
