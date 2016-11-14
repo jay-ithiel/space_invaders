@@ -1,0 +1,6 @@
+UNRESOLVED
+  - Stars do not show on background. Skip for now. Not an MVP.
+  - Bullets do not show on canvas either. Both stars and bullets are defined, 
+    is not skipped for any loop, bullets affect the position of the ship. 
+    They are definitely somewhere on the DOM, just not visible.
+
