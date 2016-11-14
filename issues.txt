@@ -1,5 +1,11 @@
+TODO
+  - handle bullet collision with ship
+  - create logic for enemy ships firing at random
+  - add shields
+
 UNRESOLVED
- 
+  - Bullets don't seem to be being included in the 'Game.prototype.checkCollisions'
+    method.
 
 RESOLVED
   - Need to find a way to move all of the invader ships at the same time. 
