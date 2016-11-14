@@ -32,6 +32,7 @@ This project will be implemented with the following technologies:
 
 - Vanilla Javascript and jQuery
 - Webpack
+- HTML Canvas
 
 There will be six scripts involved in this project:
 
@@ -53,12 +54,12 @@ There will be six scripts involved in this project:
 
 ### Implementation Timeline
 
-**Day 1**: Setup all of the essential Node modules. Create 'webpack.config.js' and 'package.json'. Write an entry file, and bare bones of the scripts written above. Create the welcome, pause, restart and lose states. Goals for the day:
+**Day 1**: Setup all of the essential Node modules. Create 'webpack.config.js' and 'package.json'. Write an entry file, and bare bones of the scripts written above. Create the welcome, pause, restart and lose states. Will use images for ships and use the Canvas 'drawImage' method to render the ship/bullet images onto the Canvas screen. Goals for the day:
 
 - [ ] Create all of the essential states.
 - [ ] Create and render the shields and user ship on the canvas
 
-**Day 2**: Create the bullet class and connect it to the ship class, allowing ships to fire at will. Add key listeners to the defender ship, allowing the user to move the ship sideways and fire bullets at the enemy. Goals for the day:
+**Day 2**: Create the bullet class and connect it to the ship class, allowing ships to fire at will. Add key listeners to the defender ship, allowing the user to move the ship sideways and fire bullets at the enemy. Object movement will be implemented by manipulating the object's [x,y] axis position on the canvas. (eg. User ship will move sideways, so its x-axis position must move up/down). Goals for the day:
 
 - [ ] Create and render bullets
 - [ ] Allow ships to fire bullets
