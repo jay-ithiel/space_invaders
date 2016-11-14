@@ -1,6 +1,4 @@
 UNRESOLVED
-  - Bullets and Defender ship's positions both seem to be pointing to the same 'pos' var.
-  When Bullets position changes, defenders position mirrors, and vice versa
  
 
 RESOLVED
@@ -23,3 +21,8 @@ RESOLVED
 	- Stars weren't being rendered because its ivars were not being set. In the Star 
 	constructor function, was setting 'options.color = options.color' and wasn't 
 	passing in a value to Star. 
+
+  - Bullets and Defender ship's positions both seem to be pointing to the same 'pos' var.
+  When Bullets position changes, defenders position mirrors, and vice versa
+	- In 'Ship.prototype.fireBullet', created bulletX and bulletY axis variables and
+	set BulletPos to the new position instead of just setting BulletPos to Ship.pos
