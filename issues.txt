@@ -1,11 +1,16 @@
 TODO
-  - handle bullet collision with ship
-  - create logic for enemy ships firing at random
+  - smooth out defender ship movement
   - add shields
+  - add user lives and score
+  - add game levels
+  - change sprite images
+
+DONE:
+  - allow user to fire one bullet at a time
 
 UNRESOLVED
-  - Bullets don't seem to be being included in the 'Game.prototype.checkCollisions'
-    method.
+  - Defender's bullets spawn a few pixels to the right of the cannon. When I try to move
+    the bullet spawn point to the right, the bullet does not fire, and the ship glitches
 
 RESOLVED
   - Need to find a way to move all of the invader ships at the same time. 
