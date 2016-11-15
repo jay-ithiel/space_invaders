@@ -4,6 +4,7 @@ TODO
   - add user lives and score
   - add game levels
   - change sprite images
+  - add animation
 
 DONE:
   - allow user to fire one bullet at a time
