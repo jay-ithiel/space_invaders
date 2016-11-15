@@ -26,7 +26,10 @@ RESOLVED
   - Stars do not show on background. Skip for now. Not an MVP.
 	- Stars weren't being rendered because its ivars were not being set. In the Star 
 	constructor function, was setting 'options.color = options.color' and wasn't 
-	passing in a value to Star. 
+	passing in a value to Star.
+
+  - Was not able to call (object instanceof Ship) because I was requiring Ship inside of
+    'moving_object.js'. Not sure why, but it probably has something to do with load order
 
   - Bullets and Defender ship's positions both seem to be pointing to the same 'pos' var.
   When Bullets position changes, defenders position mirrors, and vice versa
