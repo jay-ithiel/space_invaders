@@ -1,7 +1,6 @@
 TODO
   - smooth out defender ship movement
   - add shield break levels
-  - add user lives and score
   - add game levels
   - change sprite images
   - add animation to sprites
@@ -9,6 +8,7 @@ TODO
 DONE:
   - need to add collision listeners to shield pieces to break that shield piece
   - allow user to fire one bullet at a time
+  - add user lives and score
 
 UNRESOLVED
   

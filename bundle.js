@@ -85,6 +85,7 @@
 	  this.interval = setInterval(() => {
 	    this.game.draw(this.ctx);
 	    this.addLivesText(this.ctx);
+	    this.addScoreText(this.ctx);
 	    this.game.step();
 	  }, 10);
 	};
@@ -115,6 +116,13 @@
 	
 	  ctx.font = "20px Georgia";
 	  ctx.fillText(`LIVES: ${this.game.defenderLives + 1}`, x, y);
+	};
+	
+	GameView.prototype.addScoreText = function(ctx) {
+	  let x = this.game.DIM_X * .01;
+	  let y = this.game.DIM_Y * .05;
+	  ctx.find = "20px Georgia";
+	  ctx.fillText(`SCORE: ${this.game.score}`, x, y);
 	};
 	
 	GameView.prototype.bindKeyHandlers = function() {
@@ -148,6 +156,7 @@
 	  this.stars = [];
 	  this.defender = null;
 	  this.defenderLives = 2;
+	  this.score = 0;
 	  this.invaderShips = [];
 	  this.bullets = [];
 	  this.shields = [];
@@ -330,7 +339,7 @@
 	// This method makes enemy ships shoot bullets
 	Game.prototype.enemyFire = function() {
 	  this.invaderShips.forEach(invader => {
-	    let fire = Math.random() * 1000;
+	    let fire = Math.random() * 5000;
 	    if (fire < 1) {
 	      invader.fireBullet();
 	      invader.currentBullet = false;
@@ -437,7 +446,6 @@
 	
 	Ship.prototype.respawn = function() {
 	  if (this.game.defenderLives === 0) {
-	    debugger;
 	    this.game.lose();
 	  }
 	  this.pos = [
@@ -452,9 +460,20 @@
 	  if (this.name === 'defender') {
 	    this.respawn();
 	  } else {
+	    this.game.score += this.killScore();
 	    this.game.remove(this);
 	    this.game.increaseInvadersSpeed();
 	    this.currentBullet = false;
+	  }
+	};
+	
+	Ship.prototype.killScore = function() {
+	  if (this.name === 'grunt') {
+	    return 10;
+	  } else if (this.name === 'soldier') {
+	    return 20;
+	  } else if (this.name === 'invader') {
+	    return 40;
 	  }
 	};
 	
@@ -466,7 +485,7 @@
 	};
 	
 	Ship.prototype.fireBullet = function() {
-	  if (this.currentBullet) { return; }
+	  // if (this.currentBullet) { return; }
 	
 	  let bulletPosX = this.pos[0] + 0;
 	  let bulletPosY = this.pos[1];
