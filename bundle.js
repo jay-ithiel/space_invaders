@@ -245,7 +245,6 @@
 	    });
 	
 	    shield.draw(this.ctx);
-	    // this.shields.push(shield);
 	  }
 	};
 	
@@ -338,8 +337,24 @@
 	
 	// This method makes enemy ships shoot bullets
 	Game.prototype.enemyFire = function() {
+	  // fireChance increases as the horde gets wiped out
+	  let fireChance, invaderCount = this.invaderShips.length;
+	  if (invaderCount < 5) {
+	    fireChance = 100;
+	  } else if (invaderCount < 10) {
+	    fireChance = 1000;
+	  } else if (invaderCount < 20) {
+	    fireChance = 2500;
+	  } else if (invaderCount < 30) {
+	    fireChance = 5000;
+	  } else if (invaderCount < 40) {
+	    fireChance = 7500;
+	  } else {
+	    fireChance = 10000;
+	  }
+	
 	  this.invaderShips.forEach(invader => {
-	    let fire = Math.random() * 5000;
+	    let fire = Math.random() * fireChance;
 	    if (fire < 1) {
 	      invader.fireBullet();
 	      invader.currentBullet = false;
@@ -485,7 +500,7 @@
 	};
 	
 	Ship.prototype.fireBullet = function() {
-	  // if (this.currentBullet) { return; }
+	  if (this.currentBullet) { return; }
 	
 	  let bulletPosX = this.pos[0] + 0;
 	  let bulletPosY = this.pos[1];
@@ -539,7 +554,11 @@
 	};
 	
 	Ship.prototype.move = function() {
-	  if (this.pos[0] > this.canvasSize[0] - 60) {
+	  if (this.pos[1] > this.canvasSize[1] - 60) {
+	    this.game.lose();
+	  }
+	
+	  if (this.pos[0] > this.canvasSize[0] - 90) {
 	    this.game.reverseAllInvaders();
 	    } else if (this.pos[0] < 20) {
 	    this.game.reverseAllInvaders();
