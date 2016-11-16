@@ -57,19 +57,19 @@ There will be six scripts involved in this project:
 **Day 1**: Setup all of the essential Node modules. Create 'webpack.config.js' and 'package.json'. Write an entry file, and bare bones of the scripts written above. Create the welcome, pause, restart and lose states. Will use images for ships and use the Canvas 'drawImage' method to render the ship/bullet images onto the Canvas screen. Goals for the day:
 
 - [ ] Create all of the essential states.
-- [ ] Create and render the shields and user ship on the canvas
+- [x] Create and render the shields and user ship on the canvas
 
 **Day 2**: Create the bullet class and connect it to the ship class, allowing ships to fire at will. Add key listeners to the defender ship, allowing the user to move the ship sideways and fire bullets at the enemy. Object movement will be implemented by manipulating the object's [x,y] axis position on the canvas. (eg. User ship will move sideways, so its x-axis position must move up/down). Goals for the day:
 
-- [ ] Create and render bullets
-- [ ] Allow ships to fire bullets
+- [x] Create and render bullets
+- [x] Allow ships to fire bullets
 - [ ] Add logic to handle deterioration of shields on impact with a bullet.
-- [ ] Add key listeners for 'defender' ship so users may control the movement.
+- [x] Add key listeners for 'defender' ship so users may control the movement.
 
 **Day 3**: Build the logic for enemy ships, having them fire at random, reversing the x-axis direction when the enemy ships reach the end bounds of the board, and moving down one grid and continuing the cycle. Also increment the movement speed of enemy invaders as the herd thins out. Goals for the day:
 
-- [ ] Create and render enemy ships on canvas.
-- [ ] Allow enemy ships to move and fire bullets.
+- [x] Create and render enemy ships on canvas.
+- [x] Allow enemy ships to move and fire bullets.
 - [ ] Space Invaders move faster with each one you kill.
 
 **Day 4**: Add music and sounds (Refer to synth). Add mystery UFO and styling to your product, so that it looks polished and professional.
