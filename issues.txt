@@ -1,6 +1,6 @@
 TODO
   - smooth out defender ship movement
-  - add shields
+  - need to add collision listeners to shield pieces to break that shield piece
   - add user lives and score
   - add game levels
   - change sprite images
