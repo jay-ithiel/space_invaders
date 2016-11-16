@@ -72,16 +72,25 @@
 	const GameView = function(ctx, canvasSize) {
 	  this.ctx = ctx;
 	  this.canvasSize = canvasSize;
-	  this.game = new Game(this.canvasSize, this.ctx);
+	  this.game = new Game({
+	    canvasSize: this.canvasSize,
+	    ctx: this.ctx,
+	    gameView: this
+	  });
 	  this.defender = this.game.defender;
 	};
 	
 	GameView.prototype.start = function() {
 	  this.bindKeyHandlers();
-	  setInterval(() => {
+	  this.interval = setInterval(() => {
 	    this.game.draw(this.ctx);
+	    this.addLivesText(this.ctx);
 	    this.game.step();
 	  }, 10);
+	};
+	
+	GameView.prototype.stop = function() {
+	  clearInterval(this.interval);
 	};
 	
 	GameView.KEY_BINDS = {
@@ -96,6 +105,16 @@
 	  'down': [0, 3],
 	  'left': [-3, 0],
 	  'right': [3, 0]
+	};
+	
+	GameView.prototype.addLivesText = function(ctx) {
+	  let x = this.game.DIM_X * .9;
+	  let y = this.game.DIM_Y * .05;
+	  // let img = document.getElementById('lives');
+	  // ctx.drawImage(img, x, y, 80, 15);
+	
+	  ctx.font = "20px Georgia";
+	  ctx.fillText(`LIVES: ${this.game.defenderLives + 1}`, x, y);
 	};
 	
 	GameView.prototype.bindKeyHandlers = function() {
@@ -123,19 +142,20 @@
 	const Star = __webpack_require__(9);
 	const Util = __webpack_require__(5);
 	
-	const Game = function(canvasSize, ctx) {
-	  this.canvasSize = canvasSize;
-	  this.ctx = ctx;
+	const Game = function(options) {
+	  this.canvasSize = options.canvasSize;
+	  this.ctx = options.ctx;
 	  this.stars = [];
 	  this.defender = null;
-	  this.defenderLives = 3;
+	  this.defenderLives = 2;
 	  this.invaderShips = [];
 	  this.bullets = [];
 	  this.shields = [];
 	  this.shieldPieces = [];
+	  this.gameView = options.gameView;
 	
-	  this.DIM_X = canvasSize[0];
-	  this.DIM_Y = canvasSize[1];
+	  this.DIM_X = this.canvasSize[0];
+	  this.DIM_Y = this.canvasSize[1];
 	
 	  this.addStars();
 	  this.addDefenderShip();
@@ -283,6 +303,7 @@
 	  this.ctx.clearRect(0, 0, this.DIM_X, this.DIM_Y);
 	  this.ctx.fillStyle = 'red';
 	  this.ctx.fillRect(0, 0, this.DIM_X, this.DIM_Y);
+	  this.gameView.stop();
 	};
 	
 	Game.prototype.winRound = function() {
@@ -309,10 +330,18 @@
 	// This method makes enemy ships shoot bullets
 	Game.prototype.enemyFire = function() {
 	  this.invaderShips.forEach(invader => {
-	    let fire = Math.random() * 4000;
+	    let fire = Math.random() * 1000;
 	    if (fire < 1) {
 	      invader.fireBullet();
+	      invader.currentBullet = false;
 	    }
+	  });
+	};
+	
+	// This method makes enemy ships move faster with each one that dies
+	Game.prototype.increaseInvadersSpeed = function() {
+	  this.invaderShips.forEach(invader => {
+	    invader.increaseSpeed();
 	  });
 	};
 	
@@ -408,6 +437,7 @@
 	
 	Ship.prototype.respawn = function() {
 	  if (this.game.defenderLives === 0) {
+	    debugger;
 	    this.game.lose();
 	  }
 	  this.pos = [
@@ -423,6 +453,7 @@
 	    this.respawn();
 	  } else {
 	    this.game.remove(this);
+	    this.game.increaseInvadersSpeed();
 	    this.currentBullet = false;
 	  }
 	};
@@ -431,8 +462,6 @@
 	  if (this.side === bullet.shipSide) {
 	    return;
 	  }
-	
-	  this.death();
 	  this.currentBullet = false;
 	};
 	
@@ -468,7 +497,7 @@
 	};
 	
 	Ship.prototype.reverse = function() {
-	  let newVel = Math.abs(this.vel[0]) + 0.05;
+	  let newVel = Math.abs(this.vel[0]) + 0.02;
 	  if (this.vel[0] > 0) {
 	    newVel = 0 - newVel;
 	    this.vel = [newVel, 0];
@@ -478,6 +507,16 @@
 	    this.pos[0] += 5;
 	  }
 	  this.pos[1] += 20;
+	};
+	
+	Ship.prototype.increaseSpeed = function() {
+	  let newVel = Math.abs(this.vel[0]) + 0.01;
+	  if (this.vel[0] < 0) {
+	    newVel = 0 - newVel;
+	    this.vel = [newVel, 0];
+	  } else {
+	    this.vel = [newVel, 0];
+	  }
 	};
 	
 	Ship.prototype.move = function() {
