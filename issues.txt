@@ -1,17 +1,17 @@
 TODO
   - smooth out defender ship movement
-  - need to add collision listeners to shield pieces to break that shield piece
+  - add shield break levels
   - add user lives and score
   - add game levels
   - change sprite images
-  - add animation
+  - add animation to sprites
 
 DONE:
+  - need to add collision listeners to shield pieces to break that shield piece
   - allow user to fire one bullet at a time
 
 UNRESOLVED
-  - Defender's bullets spawn a few pixels to the right of the cannon. When I try to move
-    the bullet spawn point to the right, the bullet does not fire, and the ship glitches
+  
 
 RESOLVED
   - Need to find a way to move all of the invader ships at the same time. 
