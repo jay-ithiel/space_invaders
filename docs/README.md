@@ -79,5 +79,7 @@ There will be six scripts involved in this project:
 - [ ] Add sufficient styling to product
 
 ### Bonus
-- [ ] Add UFO boss that shows up every once in a while that shoots an array of bullets
+- [ ] Power up items drop if player manages to shoot an enemy bullet
+- [ ] Add mystery UFO that shows up every once in a while that shoots an array of bullets
 - [ ] Add Boss at level 5 and 10
+- [ ] Multiplayer

@@ -339,16 +339,16 @@
 	Game.prototype.enemyFire = function() {
 	  // fireChance increases as the horde gets wiped out
 	  let fireChance, invaderCount = this.invaderShips.length;
-	  if (invaderCount < 5) {
-	    fireChance = 100;
-	  } else if (invaderCount < 10) {
+	  if (invaderCount < 10) {
 	    fireChance = 1000;
 	  } else if (invaderCount < 20) {
-	    fireChance = 2500;
+	    fireChance = 2000;
 	  } else if (invaderCount < 30) {
-	    fireChance = 5000;
+	    fireChance = 4000;
 	  } else if (invaderCount < 40) {
-	    fireChance = 7500;
+	    fireChance = 6000;
+	  } else if (invaderCount < 50) {
+	    fireChance = 8000;
 	  } else {
 	    fireChance = 10000;
 	  }
@@ -454,15 +454,16 @@
 	  // ctx.fill();
 	
 	  // subtract from pos to align the image with the radius
-	  let x = this.pos[0] - 22;
-	  let y = this.pos[1] - 12;
-	  ctx.drawImage(this.img, x, y, 45, 35);
+	  let x = this.pos[0] - 18;
+	  let y = this.pos[1] - 18;
+	  ctx.drawImage(this.img, x, y, 35, 35);
 	};
 	
 	Ship.prototype.respawn = function() {
 	  if (this.game.defenderLives === 0) {
 	    this.game.lose();
 	  }
+	
 	  this.pos = [
 	    (this.canvasSize[0] - 30) * .52,
 	     this.canvasSize[1] - 70
@@ -509,7 +510,7 @@
 	  let bulletVel;
 	  if (this.name === 'defender') {
 	    bulletVel = [0, -5];
-	    bulletPosY -= 20;
+	    bulletPosY -= 40;
 	  } else {
 	    bulletVel = [0, 5];
 	    bulletPosX += 20;
@@ -544,7 +545,7 @@
 	};
 	
 	Ship.prototype.increaseSpeed = function() {
-	  let newVel = Math.abs(this.vel[0]) + 0.01;
+	  let newVel = Math.abs(this.vel[0]) + 0.001;
 	  if (this.vel[0] < 0) {
 	    newVel = 0 - newVel;
 	    this.vel = [newVel, 0];
@@ -558,7 +559,7 @@
 	    this.game.lose();
 	  }
 	
-	  if (this.pos[0] > this.canvasSize[0] - 90) {
+	  if (this.pos[0] > this.canvasSize[0] - 20) {
 	    this.game.reverseAllInvaders();
 	    } else if (this.pos[0] < 20) {
 	    this.game.reverseAllInvaders();
@@ -569,7 +570,7 @@
 	};
 	
 	Ship.prototype.power = function(impulse) {
-	  if (this.pos[0] > this.canvasSize[0] - 60) {
+	  if (this.pos[0] > this.canvasSize[0] - 20) {
 	    if (impulse[0] > 0) {
 	      return;
 	    }
