@@ -218,7 +218,7 @@
 	        canvasSize: this.canvasSize,
 	        img: invaderShipImage,
 	        pos: [
-	          x * 50,
+	          x * 45,
 	          y
 	        ],
 	        vel: [0.3, 0],
@@ -477,11 +477,22 @@
 	    this.respawn();
 	  } else {
 	    this.game.score += this.killScore();
-	    this.game.remove(this);
 	    this.game.increaseInvadersSpeed();
 	    this.currentBullet = false;
+	    this.deathImage();
+	
+	    setTimeout(() => {
+	      this.game.remove(this);
+	    }, 200);
+	
 	  }
 	};
+	
+	Ship.prototype.deathImage = function() {
+	  this.img = document.getElementById('ship-death');
+	  this.draw(this.game.ctx);
+	};
+	
 	
 	Ship.prototype.killScore = function() {
 	  if (this.name === 'grunt') {
@@ -581,7 +592,7 @@
 	  }
 	
 	  let xOffset = impulse[0];
-	  this.pos[0] += xOffset * 10;
+	  this.pos[0] += xOffset * 2;
 	};
 	
 	module.exports = Ship;

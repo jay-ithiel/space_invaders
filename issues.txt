@@ -11,7 +11,7 @@ DONE:
   - add user lives and score
 
 UNRESOLVED
-  
+
 
 RESOLVED
   - Need to find a way to move all of the invader ships at the same time. 
