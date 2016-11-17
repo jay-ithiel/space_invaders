@@ -19,6 +19,10 @@ body {
   display: none;
 }
 
+/*#main-logo {
+  margin-top: -100px;
+}*/
+
 #play-game {
   margin-top: -80px;
   z-index: 5;

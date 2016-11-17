@@ -57,9 +57,12 @@
 	
 	  gameView.welcome();
 	
+	  let mainLogo = document.getElementById('main-logo');
 	  let playGameButton = document.getElementById('play-game');
 	  playGameButton.addEventListener("click", () => {
 	    playGameButton.className = 'sprite';
+	    mainLogo.className = 'sprite';
+	    debugger;
 	    gameView.start();
 	  });
 	});
@@ -107,10 +110,10 @@
 	};
 	
 	GameView.prototype.welcome = function() {
-	  this.ctx.clearRect(0, 0, this.game.DIM_X, this.game.DIM_Y);
 	  this.ctx.fillStyle = '#000';
 	  this.ctx.fillRect(0, 0, this.game.DIM_X, this.game.DIM_Y);
 	  this.addMainLogo(this.ctx);
+	  this.addPointInfo(this.ctx);
 	};
 	
 	GameView.prototype.pause = function() {
@@ -170,12 +173,25 @@
 	  ctx.drawImage(logoImage, x, y, 600, 250);
 	};
 	
-	GameView.prototype.addPlayButton = function(ctx) {
-	  let x = this.game.DIM_X * .35;
-	  let y = this.game.DIM_Y * .8;
-	  let playImage = document.getElementById('play-game');
-	  ctx.drawImage(playImage, x, y, 250, 35);
+	GameView.prototype.addPointInfo = function(ctx) {
+	  const grunt = document.getElementById('grunt-1');
+	  const soldier = document.getElementById('soldier-1');
+	  const invader = document.getElementById('invader-1');
+	  const ufo = document.getElementById('ufo');
+	
+	  ctx.drawImage(grunt, 350, 300, 40, 40);
+	  ctx.drawImage(soldier, 350, 340, 40, 40);
+	  ctx.drawImage(invader, 350, 380, 40, 40);
+	  ctx.drawImage(ufo, 350, 420, 40, 40);
 	};
+	
+	// Will use this method once I figure out why it only renders 20% of the time
+	// GameView.prototype.addPlayButton = function(ctx) {
+	//   let x = this.game.DIM_X * .35;
+	//   let y = this.game.DIM_Y * .8;
+	//   let playImage = document.getElementById('play-game');
+	//   ctx.drawImage(playImage, x, y, 250, 35);
+	// };
 	
 	module.exports = GameView;
 
@@ -229,7 +245,7 @@
 	      id: i,
 	      color: "#ffffff",
 	      pos: this.randomPosition(),
-	      vel: Util.randomVec(8),
+	      vel: Util.randomVec(5),
 	      game: this
 	    }));
 	  }
@@ -566,10 +582,6 @@
 	    let invader2 = document.getElementById('invader-2');
 	    this.img.id === 'invader-1' ? this.img = invader2 : this.img = invader1;
 	  }
-	  // setTimeout(this.toggleImage.bind(this), 200);
-	  // setTimeout(() => {
-	    // this.draw(this.game.ctx);
-	  // }, 200);
 	};
 	
 	Ship.prototype.killScore = function() {
@@ -592,25 +604,28 @@
 	Ship.prototype.fireBullet = function() {
 	  // Early return prevents player from spamming bullets, limiting
 	  // the player to one bullet at a time
-	  // if (this.currentBullet) { return; }
+	  if (this.currentBullet) { return; }
 	
 	  let bulletPosX = this.pos[0] - 2;
 	  let bulletPosY = this.pos[1];
 	  let bulletPos = [bulletPosX, bulletPosY];
+	  let bulletColor;
 	
 	  let bulletVel;
 	  if (this.name === 'defender') {
 	    bulletVel = [0, -5];
 	    bulletPosY -= 40;
+	    bulletColor = "#FF00FF";
 	  } else {
 	    bulletVel = [0, 5];
 	    bulletPosX += 20;
+	    bulletColor = "#FF0000";
 	  }
 	
 	  let bullet = new Bullet({
 	    vel: bulletVel,
 	    pos: bulletPos,
-	    color: "#FF0000",
+	    color: bulletColor,
 	    game: this.game,
 	    radius: 2,
 	    shipName: this.name,
@@ -806,7 +821,7 @@
 	Util.inherits(Bullet, MovingObject);
 	
 	Bullet.prototype.draw = function(ctx) {
-	  ctx.fillStyle = "#FF0000";
+	  ctx.fillStyle = this.color;
 	
 	  ctx.fillRect(
 	    this.pos[0],
