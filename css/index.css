@@ -9,22 +9,92 @@ body {
   border: 0;
 }
 
+#container {
+  height: 600px;
+  width: 900px;
+  position: relative;
+}
+
 #game-canvas {
   margin: 0;
   padding: 0;
   border: 0;
+  height: 100%;
+  width: 100%;
 }
 
-.sprite {
-  display: none;
+#menu-button {
+  font-family: Georgia;
+  font-size: 23px;
+  color: #e7e7e7;
+
+  position: absolute;
+  top: 11px;
+  left: 420px;
+
+  width: 300px;
+  height: 30px;
+  z-index: 5;
 }
 
-/*#main-logo {
-  margin-top: -100px;
-}*/
+#menu-button:hover {
+  cursor: pointer;
+  color: #;
+  /*filter: brightness(150%);*/
+}
+
+
+
+#main-logo {
+  position: absolute;
+  bottom: 300px;
+  left: 95px;
+
+  height: 300px;
+  width: 700px;
+}
+
+#grunt-1 {
+  position: absolute;
+  left: 355px;
+  bottom: 250px;
+
+  height: 40px;
+  width: 40px;
+}
+
+#soldier-1 {
+  position: absolute;
+  left: 355px;
+  bottom: 210px;
+
+  height: 40px;
+  width: 40px;
+}
+
+#invader-1 {
+  position: absolute;
+  left: 355px;
+  bottom: 170px;
+
+  height: 40px;
+  width: 40px;
+}
+
+#ufo {
+  position: absolute;
+  left: 348px;
+  bottom: 130px;
+
+  height: 48px;
+  width: 54px;
+}
 
 #play-game {
-  margin-top: -80px;
+  position: absolute;
+  bottom: 50px;
+  left: 307px;
+
   z-index: 5;
   height: 30px;
   width: 300px;
@@ -32,4 +102,8 @@ body {
 
 #play-game:hover {
   cursor: pointer;
+}
+
+.hide {
+  display: none;
 }
