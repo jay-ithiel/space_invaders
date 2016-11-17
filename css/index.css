@@ -13,6 +13,7 @@ body {
   height: 600px;
   width: 900px;
   position: relative;
+  background-color: #000;
 }
 
 #game-canvas {
@@ -106,4 +107,11 @@ body {
 
 .hide {
   display: none;
+}
+
+#game-over {
+  position: absolute;
+  z-index: 5;
+  bottom: 150px;
+  left: 180px;
 }
