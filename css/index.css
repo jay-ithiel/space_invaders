@@ -18,3 +18,14 @@ body {
 .sprite {
   display: none;
 }
+
+#play-game {
+  margin-top: -80px;
+  z-index: 5;
+  height: 30px;
+  width: 300px;
+}
+
+#play-game:hover {
+  cursor: pointer;
+}

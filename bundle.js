@@ -55,7 +55,13 @@
 	  const ctx = canvas.getContext('2d');
 	  const gameView = new GameView(ctx, canvasSize);
 	
-	  gameView.start();
+	  gameView.welcome();
+	
+	  let playGameButton = document.getElementById('play-game');
+	  playGameButton.addEventListener("click", () => {
+	    playGameButton.className = 'sprite';
+	    gameView.start();
+	  });
 	});
 
 
@@ -82,16 +88,37 @@
 	
 	GameView.prototype.start = function() {
 	  this.bindKeyHandlers();
+	
 	  this.interval = setInterval(() => {
 	    this.game.draw(this.ctx);
 	    this.addLivesText(this.ctx);
 	    this.addScoreText(this.ctx);
+	    this.game.moveInvaders();
 	    this.game.step();
 	  }, 10);
+	
+	  setInterval(() => {
+	    this.game.toggleInvaders();
+	  }, 500);
 	};
 	
 	GameView.prototype.stop = function() {
 	  clearInterval(this.interval);
+	};
+	
+	GameView.prototype.welcome = function() {
+	  this.ctx.clearRect(0, 0, this.game.DIM_X, this.game.DIM_Y);
+	  this.ctx.fillStyle = '#000';
+	  this.ctx.fillRect(0, 0, this.game.DIM_X, this.game.DIM_Y);
+	  this.addMainLogo(this.ctx);
+	};
+	
+	GameView.prototype.pause = function() {
+	
+	};
+	
+	GameView.prototype.gameOver = function() {
+	
 	};
 	
 	GameView.KEY_BINDS = {
@@ -134,6 +161,20 @@
 	  });
 	
 	  key('space', function() { defender.fireBullet(); })
+	};
+	
+	GameView.prototype.addMainLogo = function(ctx) {
+	  let x = this.game.DIM_X * .15;
+	  let y = this.game.DIM_Y * .01;
+	  let logoImage = document.getElementById('main-logo');
+	  ctx.drawImage(logoImage, x, y, 600, 250);
+	};
+	
+	GameView.prototype.addPlayButton = function(ctx) {
+	  let x = this.game.DIM_X * .35;
+	  let y = this.game.DIM_Y * .8;
+	  let playImage = document.getElementById('play-game');
+	  ctx.drawImage(playImage, x, y, 250, 35);
 	};
 	
 	module.exports = GameView;
@@ -248,6 +289,11 @@
 	  }
 	};
 	
+	Game.prototype.refreshShields = function() {
+	  this.shieldPieces = [];
+	  this.addShields();
+	};
+	
 	Game.prototype.addDefenderShip = function() {
 	  const defender = new Ship ({
 	    name: 'defender',
@@ -268,7 +314,6 @@
 	  return [].concat(
 	    this.shieldPieces,
 	    this.bullets,
-	    this.invaderShips,
 	    this.stars
 	  );
 	};
@@ -276,6 +321,18 @@
 	Game.prototype.moveObjects = function() {
 	  this.getAllObjects().forEach(object => {
 	    object.move();
+	  });
+	};
+	
+	Game.prototype.moveInvaders = function() {
+	  this.invaderShips.forEach(ship => {
+	    ship.move();
+	  });
+	};
+	
+	Game.prototype.toggleInvaders = function() {
+	  this.invaderShips.forEach(ship => {
+	    ship.toggleImage();
 	  });
 	};
 	
@@ -315,10 +372,13 @@
 	};
 	
 	Game.prototype.winRound = function() {
-	  if (this.invaderShips.length === 0) {
-	    this.addInvaderShips();
-	    this.defenderLives += 1;
-	  }
+	  setTimeout(() => {
+	    if (this.invaderShips.length === 0) {
+	      this.refreshShields();
+	      this.addInvaderShips();
+	      this.defenderLives += 1;
+	    }
+	  }, 1000);
 	};
 	
 	Game.prototype.isOutOfBounds = function (pos) {
@@ -484,7 +544,6 @@
 	    setTimeout(() => {
 	      this.game.remove(this);
 	    }, 200);
-	
 	  }
 	};
 	
@@ -493,6 +552,25 @@
 	  this.draw(this.game.ctx);
 	};
 	
+	Ship.prototype.toggleImage = function() {
+	  if (this.name === 'grunt') {
+	    let grunt1 = document.getElementById('grunt-1');
+	    let grunt2 = document.getElementById('grunt-2');
+	    this.img.id === 'grunt-1' ? this.img = grunt2 : this.img = grunt1;
+	  } else if (this.name === 'soldier') {
+	    let soldier1 = document.getElementById('soldier-1');
+	    let soldier2 = document.getElementById('soldier-2');
+	    this.img.id === 'soldier-1' ? this.img = soldier2 : this.img = soldier1;
+	  } else if (this.name === 'invader') {
+	    let invader1 = document.getElementById('invader-1');
+	    let invader2 = document.getElementById('invader-2');
+	    this.img.id === 'invader-1' ? this.img = invader2 : this.img = invader1;
+	  }
+	  // setTimeout(this.toggleImage.bind(this), 200);
+	  // setTimeout(() => {
+	    // this.draw(this.game.ctx);
+	  // }, 200);
+	};
 	
 	Ship.prototype.killScore = function() {
 	  if (this.name === 'grunt') {
@@ -512,9 +590,11 @@
 	};
 	
 	Ship.prototype.fireBullet = function() {
-	  if (this.currentBullet) { return; }
+	  // Early return prevents player from spamming bullets, limiting
+	  // the player to one bullet at a time
+	  // if (this.currentBullet) { return; }
 	
-	  let bulletPosX = this.pos[0] + 0;
+	  let bulletPosX = this.pos[0] - 2;
 	  let bulletPosY = this.pos[1];
 	  let bulletPos = [bulletPosX, bulletPosY];
 	
@@ -566,6 +646,8 @@
 	};
 	
 	Ship.prototype.move = function() {
+	  this.draw(this.game.ctx);
+	
 	  if (this.pos[1] > this.canvasSize[1] - 60) {
 	    this.game.lose();
 	  }
@@ -592,7 +674,7 @@
 	  }
 	
 	  let xOffset = impulse[0];
-	  this.pos[0] += xOffset * 2;
+	  this.pos[0] += xOffset * 5;
 	};
 	
 	module.exports = Ship;
@@ -744,8 +826,8 @@
 	    this.game.remove(otherObject);
 	    this.ship.currentBullet = false;
 	  } else {
-	    let ship = otherObject;
-	    ship.death();
+	    let otherShip = otherObject;
+	    otherShip.death();
 	    this.ship.currentBullet = false;
 	  }
 	
