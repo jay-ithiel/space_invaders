@@ -59,8 +59,8 @@ body {
   left: 355px;
   bottom: 250px;
 
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
 }
 
 #soldier-1 {
@@ -68,8 +68,8 @@ body {
   left: 355px;
   bottom: 210px;
 
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
 }
 
 #invader-1 {
@@ -77,17 +77,17 @@ body {
   left: 355px;
   bottom: 170px;
 
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
 }
 
 #ufo {
   position: absolute;
-  left: 348px;
-  bottom: 130px;
+  left: 342px;
+  bottom: 117px;
 
-  height: 48px;
-  width: 54px;
+  height: 53px;
+  width: 58px;
 }
 
 #play-game {
