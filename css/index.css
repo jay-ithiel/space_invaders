@@ -4,6 +4,8 @@ body {
   justify-content: center;
   align-items: center;
 
+  background-color: #070707;
+
   padding: 0;
   margin: 0;
   border: 0;
@@ -25,7 +27,7 @@ body {
 }
 
 #menu-button {
-  font-family: Georgia;
+  font-family: 'Bungee Inline', cursive;a;
   font-size: 23px;
   color: #e7e7e7;
 
@@ -40,11 +42,120 @@ body {
 
 #menu-button:hover {
   cursor: pointer;
-  color: #;
-  /*filter: brightness(150%);*/
+  color: #ffff6d;
 }
 
+#menu-container {
+  position: absolute;
+  bottom: 100px;
+  left: 300px;
 
+  opacity: 0.9;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+
+  background-color: grey;
+  height: 400px;
+  width: 300px;
+
+  font-family: 'Bungee Inline', cursive;a;
+  font-size: 22px;
+  color: #fff;
+
+  border-radius: 10px;
+}
+
+.header {
+  color: #ee300c;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+#about-button:hover {
+  cursor: pointer;
+  color: #ffff6d;
+}
+
+#about {
+  position: absolute;
+  bottom: 100px;
+  left: 300px;
+
+  opacity: 0.9;
+
+  background-color: grey;
+  height: 400px;
+  width: 300px;
+
+  font-family: 'Bungee Inline', cursive;
+  color: #fff;
+
+  text-align: center;
+  border-radius: 10px;
+}
+
+#close-about {
+  margin-left: 200px;
+  margin-top: 5px;
+}
+
+#close-about:hover {
+  cursor: pointer;
+  color: #ffff6d;
+}
+
+#instructions-button:hover {
+  cursor: pointer;
+  color: #ffff6d;
+}
+
+#instructions {
+  position: absolute;
+  bottom: 100px;
+  left: 300px;
+
+  opacity: 0.9;
+
+  background-color: grey;
+  height: 400px;
+  width: 300px;
+
+  font-family: 'Bungee Inline', cursive;
+  color: #fff;
+
+  text-align: center;
+  border-radius: 10px;
+}
+
+#close-instructions {
+  margin-left: 200px;
+  margin-top: 5px;
+}
+
+#close-instructions:hover {
+  cursor: pointer;
+  color: #ffff6d;
+}
+
+#close-instructions:hover {
+  cursor: pointer;
+  color: #ffff6d;
+}
+
+#resume-button:hover {
+  cursor: pointer;
+  color: #ffff6d;
+}
+
+#restart-button:hover {
+  cursor: pointer;
+  color: #ffff6d;
+}
 
 #main-logo {
   position: absolute;
@@ -107,6 +218,11 @@ body {
 
 .hide {
   display: none;
+  z-index: -5;
+}
+
+.show {
+  z-index: 5;
 }
 
 #game-over {
