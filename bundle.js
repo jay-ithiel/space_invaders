@@ -145,9 +145,9 @@
 
 	const Ship = __webpack_require__(3);
 	const Bullet = __webpack_require__(6);
-	const Shield = __webpack_require__(8);
+	const Shield = __webpack_require__(10);
 	const ShieldPiece = __webpack_require__(7);
-	const Star = __webpack_require__(9);
+	const Star = __webpack_require__(11);
 	const Util = __webpack_require__(5);
 	
 	const Game = function(options) {
@@ -786,7 +786,9 @@
 
 
 /***/ },
-/* 8 */
+/* 8 */,
+/* 9 */,
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	const ShieldPiece = __webpack_require__(7);
@@ -830,7 +832,7 @@
 
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	const Util = __webpack_require__(5);
