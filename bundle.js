@@ -600,15 +600,16 @@
 	};
 	
 	Game.prototype.winRound = function() {
-	  if (!this.gameView.isPaused) {
-	    setTimeout(() => {
-	      if (this.invaderShips.length === 0) {
-	        this.refreshShields();
-	        this.addInvaderShips();
-	        this.defenderLives += 1;
-	      }
-	    }, 10000);
-	  }
+	  setTimeout(() => {
+	    if (this.invaderShips.length === 0) {
+	      this.shields = [];
+	      this.invaderShips = [];
+	      
+	      this.refreshShields();
+	      this.addInvaderShips();
+	      this.defenderLives += 1;
+	    }
+	  }, 10000);
 	};
 	
 	Game.prototype.isOutOfBounds = function (pos) {
