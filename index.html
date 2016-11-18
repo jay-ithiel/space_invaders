@@ -6,55 +6,123 @@
     <script src="keymaster/keymaster.js"></script>
     <script src="bundle.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/index.css">
+    <link href="https://fonts.googleapis.com/css?family=Bungee+Inline" rel="stylesheet">
   </head>
+
   <body>
-    Space Invaders
-    <canvas id="game-canvas"></canvas>
 
-    <img
-      class="sprite"
-      id="defender"
-      src="./images/defender.jpg" />
+    <div id="container">
+      <div
+        class="hide"
+        id="menu-button">
+        Menu
+      </div>
+      <canvas id="game-canvas"></canvas>
 
-    <img
-      class="sprite"
-      id="grunt-1"
-      src="./images/grunt-1.jpg" />
 
-    <img
-      class="sprite"
-      id="grunt-2"
-      src="./images/grunt-2.jpg" />
+      <div id="menu-container" class="hide menu-container">
+        <div class='header'>SPACE INVADERS</div>
+        <div id='about-button' class='hide button'>About</div>
+        <div id='instructions-button' class='hide button'>Instructions</div>
+        <div id='resume-button' class='hide button'>Resume</div>
+        <div id='restart-button' class='hide button'>Restart</div>
+      </div>
 
-    <img
-      class="sprite"
-      id="soldier-1"
-      src="./images/soldier-1.jpg" />
+      <div id='about' class='hide'>
+        <div id='close-about' class='hide'>close[x]</div>
+        <p>
+          Remake of the classic arcade game, Space Invaders.
 
-    <img
-      class="sprite"
-      id="soldier-2"
-      src="./images/soldier-2.jpg" />
+          Made by Jay Hwang
+        </p>
+      </div>
 
-    <img
-      class="sprite"
-      id="invader-1"
-      src='./images/invader-1.jpg' />
+      <div id='instructions' class='hide'>
+        <div id='close-instructions' class='hide'>close[x]</div>
+        <p>
+          Press space to shoot, and use the arrow keys to move.
 
-    <img
-      class="sprite"
-      id="invader-2"
-      src='./images/invader-2.jpg' />
+          Evade the enemy bullets. Watch their speed, as they start
+          moving faster and shooting more often as you kill them!
+        <p/>
+      </div>
 
-    <img
-      class="sprite"
-      id="ufo"
-      src="./images/ufo.jpg" />
+      <div id="invader-info" class="show">
+        <p>= 10 points</p>
+        <p>= 20 points</p>
+        <p>= 40 points</p>
+        <p>= ??? points</p>
+      </div>
 
-    <img
-      class="sprite"
-      id="lives"
-      src="./images/lives.jpg" />
+      <!-- Sprite images -->
+      <img
+        class='hide'
+        id='game-over'
+        src='./images/game-over.jpg' />
+
+      <img
+        id="main-logo"
+        src="./images/main-logo.jpg" />
+
+      <img
+        id="play-game"
+        src="./images/play-game.jpg" />
+
+      <img
+        class="hide"
+        id="defender"
+        src="./images/defender.jpg" />
+
+      <img
+        class='hide'
+        id='defender-death'
+        src='./images/defender-death.jpg' />
+
+      <img
+        class=""
+        id="grunt-1"
+        src="./images/grunt-1.jpg" />
+
+      <img
+        class="hide"
+        id="grunt-2"
+        src="./images/grunt-2.jpg" />
+
+      <img
+        class=""
+        id="soldier-1"
+        src="./images/soldier-1.jpg" />
+
+      <img
+        class="hide"
+        id="soldier-2"
+        src="./images/soldier-2.jpg" />
+
+      <img
+        class=""
+        id="invader-1"
+        src='./images/invader-1.jpg' />
+
+      <img
+        class="hide"
+        id="invader-2"
+        src='./images/invader-2.jpg' />
+
+      <img
+        class=""
+        id="ufo"
+        src="./images/ufo.jpg" />
+
+      <img
+        class="hide"
+        id="lives"
+        src="./images/lives.jpg" />
+
+      <img
+        class="hide"
+        id="ship-death"
+        src="./images/ship-death.jpg" />
+    </div>
 
   </body>
 </html>
