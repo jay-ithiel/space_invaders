@@ -472,7 +472,7 @@
 	
 	  let spawnPositions = [-30, 930];
 	
-	  if (spawnUfoChance < 1000) {
+	  if (spawnUfoChance < 1) {
 	    let ufoImage = document.getElementById('ufo');
 	    let ufoShip = new Ship ({
 	      name: 'ufo',
@@ -1444,6 +1444,7 @@
 	  this.ship = options.ship;
 	  this.ctx = options.ctx;
 	  this.power = null;
+	  this.spawned = false;
 	
 	  MovingObject.call(this, options);
 	
@@ -1453,11 +1454,10 @@
 	Util.inherits(PowerUp, MovingObject);
 	
 	PowerUp.prototype.spawn = function(ctx) {
-	  let dropChance = Math.random(); //* 20;
+	  let dropChance = Math.random() * 100;
 	
-	  if (dropChance < 20) {
+	  if (dropChance < 50) {
 	    let rollPowers = Math.random() * 100;
-	
 	    // if (rollPowers < 20) {
 	    //   this.spawnLife();
 	    // }
@@ -1475,26 +1475,31 @@
 	    } else {
 	      this.spawnSpeed();
 	    }
+	
+	    setTimeout(() => {
+	      this.spawned = false;
+	      this.game.remove(this);
+	    }, 5000);
 	  }
 	
-	  setTimeout(() => {
-	    this.game.remove(this);
-	  }, 5000);
 	};
 	
 	PowerUp.prototype.spawnGun = function() {
+	  this.spawned = true;
 	  this.color = "#FF00FF";
 	  this.draw(this.ctx);
 	  this.power = 'gun';
 	};
 	
 	PowerUp.prototype.spawnSpeed = function() {
+	  this.spawned = true;
 	  this.color = "#ADD8E6";
 	  this.draw(this.ctx);
 	  this.power = 'speed';
 	};
 	
 	PowerUp.prototype.spawnLife = function() {
+	  this.spawned = true;
 	  this.color = "#66CD00";
 	  this.draw(this.ctx);
 	  this.power = 'life';
@@ -1509,7 +1514,6 @@
 	      } else if (this.power === 'gun') {
 	        this.ship.hasTwoGuns = true;
 	      } else if (this.power === 'speed') {
-	        // handle speed logic
 	        this.ship.speedUp = true;
 	      }
 	    }
@@ -1527,6 +1531,7 @@
 	};
 	
 	PowerUp.prototype.draw = function(ctx) {
+	  if (!this.spawned) { return; }
 	  ctx.fillStyle = this.color;
 	
 	  ctx.beginPath();
@@ -1563,7 +1568,7 @@
 	  let posX = this.pos[0];
 	  let posY = this.pos[1];
 	
-	  for (let i = 1; i < 43; i++) {
+	  for (let i = 1; i < 29; i++) {
 	    let shieldPiece = new ShieldPiece ({
 	      id: i,
 	      pos: [posX, posY],
@@ -1580,8 +1585,6 @@
 	    else if (i === 14) { posY -= 7; }
 	    else if (i < 28) { posX -= 7; }
 	    else if (i === 28) { posY -= 7; }
-	    else if (i < 43) { posX += 7; }
-	    else if (i === 43) { posY -= 7; }
 	  }
 	};
 	
