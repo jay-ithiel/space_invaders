@@ -78,6 +78,33 @@
 	  const ufo = document.getElementById('ufo');
 	  const invaderInfo = document.getElementById('invader-info');
 	
+	  const audio = document.getElementById('audio');
+	  const mute = document.getElementById('mute');
+	
+	  audio.addEventListener('click', () => {
+	    if (audio.className === 'hide') {
+	      audio.className = 'show';
+	      mute.className ='hide';
+	    } else {
+	      audio.className = 'hide';
+	      mute.className = 'show';
+	    }
+	
+	    gameView.toggleAudio();
+	  });
+	
+	  mute.addEventListener('click', () => {
+	    if (audio.className === 'hide') {
+	      audio.className = 'show';
+	      mute.className ='hide';
+	    } else {
+	      audio.className = 'hide';
+	      mute.className = 'show';
+	    }
+	
+	    gameView.toggleAudio();
+	  });
+	
 	  playGameButton.addEventListener("click", () => {
 	    playGameButton.className = 'hide';
 	    mainLogo.className = 'hide';
@@ -201,7 +228,14 @@
 	  this.leftPressed = false;
 	  this.spacePressed = false;
 	
+	  this.isMuted = false;
+	
 	  this.addKeyListeners();
+	};
+	
+	GameView.prototype.toggleAudio = function() {
+	  this.isMuted = this.isMuted ? false : true;
+	  // handle muting logit here;
 	};
 	
 	GameView.prototype.start = function() {
@@ -438,7 +472,7 @@
 	
 	  let spawnPositions = [-30, 930];
 	
-	  if (spawnUfoChance < 1) {
+	  if (spawnUfoChance < 1000) {
 	    let ufoImage = document.getElementById('ufo');
 	    let ufoShip = new Ship ({
 	      name: 'ufo',
@@ -515,6 +549,7 @@
 	
 	Game.prototype.refreshShields = function() {
 	  this.shieldPieces = [];
+	  this.shields = [];
 	  this.addShields();
 	};
 	
@@ -600,16 +635,15 @@
 	};
 	
 	Game.prototype.winRound = function() {
-	  setTimeout(() => {
-	    if (this.invaderShips.length === 0) {
-	      this.shields = [];
-	      this.invaderShips = [];
-	      
-	      this.refreshShields();
-	      this.addInvaderShips();
-	      this.defenderLives += 1;
-	    }
-	  }, 10000);
+	  if (this.invaderShips.length === 0) {
+	    setTimeout(() => {
+	      if (this.invaderShips.length === 0) {
+	        this.refreshShields();
+	        this.addInvaderShips();
+	        this.defenderLives++;
+	      }
+	    }, 1000);
+	  }
 	};
 	
 	Game.prototype.isOutOfBounds = function (pos) {
@@ -711,7 +745,6 @@
 	
 	Game.prototype.remove = function(object) {
 	  if (object instanceof Bullet) {
-	    object.ship.currentBullet = false;
 	    object.removeBullet(object);
 	  } else if (object instanceof Ship) {
 	    if (object.name === 'ufo') {
@@ -760,6 +793,8 @@
 	  this.currentBullet = false;
 	  this.isDead = false;
 	  this.hasTwoGuns = false;
+	  this.speedUp = false;
+	  this.bulletsInPlay = [];
 	
 	  MovingObject.call(this, options);
 	};
@@ -815,6 +850,7 @@
 	
 	  this.game.defenderLives -= 1;
 	  this.hasTwoGuns = false;
+	  this.speedUp = false;
 	  if (this.game.defenderLives <= 0) {
 	    this.game.lose();
 	  }
@@ -838,11 +874,13 @@
 	  let deathSound;
 	
 	  if (this.name === 'defender') {
-	    deathSound = new Note(1222.00);
-	    deathSound.start();
-	    setTimeout(() => {
-	      deathSound.stop();
-	    }, 200);
+	    if (!this.game.gameView.isMuted) {
+	      deathSound = new Note(1222.00);
+	      deathSound.start();
+	      setTimeout(() => {
+	        deathSound.stop();
+	      }, 200);
+	    }
 	
 	    this.respawn();
 	  } else {
@@ -854,17 +892,21 @@
 	
 	    if (this.name === 'ufo') {
 	      this.dropPowerUp(this.pos);
+	      this.vel = [0,0];
 	    }
+	
 	
 	    setTimeout(() => {
 	      this.game.remove(this);
 	    }, 200);
 	
-	    deathSound = new Note(1546.50);
-	    deathSound.start();
-	    setTimeout(() => {
-	      deathSound.stop();
-	    }, 200);
+	    if (!this.game.gameView.isMuted) {
+	      deathSound = new Note(1546.50);
+	      deathSound.start();
+	      setTimeout(() => {
+	        deathSound.stop();
+	      }, 200);
+	    }
 	  }
 	};
 	
@@ -878,12 +920,13 @@
 	};
 	
 	Ship.prototype.dropPowerUp = function(pos) {
-	  let powerUp = new PowerUp({
+	  const powerUp = new PowerUp({
 	    vel: [0, 4],
 	    pos: pos,
 	    radius: 5,
 	    color: '#ff00ff',
 	    game: this.game,
+	    ship: this,
 	    ctx: this.game.ctx
 	  });
 	
@@ -924,15 +967,25 @@
 	};
 	
 	Ship.prototype.collideWith = function(object) {
-	  this.currentBullet = false;
-	  // bullet.ship.currentBullet = false;
 	  if (this.side === object.shipSide) {
 	    return;
 	  }
 	
+	  this.bulletsInPlay.shift();
+	  if (this.bulletsInPlay.length === 0) {
+	    this.currentBullet = false;
+	  }
+	
 	  if (object.type === 'powerUp') {
 	    if (this.name === 'defender') {
-	      this.hasTwoGuns = true;
+	      if (object.power === 'life') {
+	        this.game.defenderLives++;
+	      } else if (object.power === 'gun') {
+	        this.hasTwoGuns = true;
+	      } else if (object.power === 'speed') {
+	        // handle speed logic
+	        this.speedUp = true;
+	      }
 	    }
 	  }
 	};
@@ -999,6 +1052,9 @@
 	
 	    this.game.bullets.push(bullet1);
 	    this.game.bullets.push(bullet2);
+	
+	    this.bulletsInPlay.push(bullet1);
+	    this.bulletsInPlay.push(bullet2);
 	  } else {
 	    let bullet = new Bullet({
 	      id: this.game.bulletId,
@@ -1013,17 +1069,20 @@
 	    });
 	
 	    this.game.bullets.push(bullet);
+	    this.bulletsInPlay.push(bullet);
 	  }
 	
 	
-	  let shootSound = new Note(1300.00);
-	  shootSound.start();
-	  setTimeout(() => {
-	    shootSound.stop();
-	  }, 200);
+	  if (!this.game.gameView.isMuted) {
+	    let shootSound = new Note(1300.00);
+	    shootSound.start();
+	    setTimeout(() => {
+	      shootSound.stop();
+	    }, 200);
+	  }
 	
-	  this.game.bulletId++;
-	  this.currentBullet = true;
+	    this.game.bulletId++;
+	    this.currentBullet = true;
 	};
 	
 	Ship.prototype.reverse = function() {
@@ -1079,6 +1138,14 @@
 	};
 	
 	Ship.prototype.power = function(impulse) {
+	  if (this.speedUp) {
+	    if (impulse[0] < 0) {
+	      impulse[0] = -5;
+	    } else {
+	      impulse[0] = 5;
+	    }
+	  }
+	
 	  if (this.pos[0] > this.canvasSize[0] - 20) {
 	    if (impulse[0] > 0) {
 	      return;
@@ -1123,7 +1190,10 @@
 	  this.pos[1] += this.vel[1];
 	
 	  if (this.game.isOutOfBounds(this.pos)) {
-	    this.ship.currentBullet = false;
+	    this.ship.bulletsInPlay.shift();
+	    if (this.ship.bulletsInPlay.length === 0) {
+	      this.ship.currentBullet = false;
+	    }
 	    this.game.remove(this);
 	  }
 	};
@@ -1248,7 +1318,11 @@
 	};
 	
 	Bullet.prototype.collideWith = function(otherObject) {
-	  this.ship.currentBullet = false;
+	  this.ship.bulletsInPlay.shift();
+	
+	  if (this.ship.bulletsInPlay.length === 0) {
+	    this.ship.currentBullet = false;
+	  }
 	
 	  // prevents friendly fire
 	  if (this.shipSide === otherObject.side) {
@@ -1367,7 +1441,9 @@
 	  this.radius = options.radius;
 	  this.color = options.color;
 	  this.game = options.game;
+	  this.ship = options.ship;
 	  this.ctx = options.ctx;
+	  this.power = null;
 	
 	  MovingObject.call(this, options);
 	
@@ -1377,23 +1453,68 @@
 	Util.inherits(PowerUp, MovingObject);
 	
 	PowerUp.prototype.spawn = function(ctx) {
-	  // 40% of no drop
-	  // 20% shield
-	  // 25%
-	  let dropChance = Math.random() * 100;
+	  let dropChance = Math.random(); //* 20;
 	
 	  if (dropChance < 20) {
-	    this.ctx = ctx;
-	    this.draw(ctx);
+	    let rollPowers = Math.random() * 100;
+	
+	    // if (rollPowers < 20) {
+	    //   this.spawnLife();
+	    // }
+	    // handle logic for this later
+	    // else if (rollPowers < 55) {
+	    //   power = this.spawnSpeed();
+	    // }
+	    // else {
+	      // this.spawnGun();
+	      // this.spawnSpeed();
+	    // }
+	
+	    if (rollPowers < 50) {
+	      this.spawnGun();
+	    } else {
+	      this.spawnSpeed();
+	    }
 	  }
 	
 	  setTimeout(() => {
 	    this.game.remove(this);
-	  }, 10000);
+	  }, 5000);
+	};
+	
+	PowerUp.prototype.spawnGun = function() {
+	  this.color = "#FF00FF";
+	  this.draw(this.ctx);
+	  this.power = 'gun';
+	};
+	
+	PowerUp.prototype.spawnSpeed = function() {
+	  this.color = "#ADD8E6";
+	  this.draw(this.ctx);
+	  this.power = 'speed';
+	};
+	
+	PowerUp.prototype.spawnLife = function() {
+	  this.color = "#66CD00";
+	  this.draw(this.ctx);
+	  this.power = 'life';
 	};
 	
 	PowerUp.prototype.collideWith = function(otherObject) {
-	  otherObject.hasTwoGuns = true;
+	
+	  if (this.type === 'powerUp') {
+	    if (otherObject.name === 'defender') {
+	      if (this.power === 'life') {
+	        this.game.defenderLives++;
+	      } else if (this.power === 'gun') {
+	        this.ship.hasTwoGuns = true;
+	      } else if (this.power === 'speed') {
+	        // handle speed logic
+	        this.ship.speedUp = true;
+	      }
+	    }
+	  }
+	
 	  this.game.remove(this);
 	};
 	

@@ -50,6 +50,32 @@ body {
   padding: 0;
 }
 
+#audio {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+
+  height: 25px;
+  width: 25px;
+}
+
+#mute {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+
+  height: 25px;
+  width: 25px;
+}
+
+#audio:hover {
+  cursor: pointer;
+}
+
+#mute:hover {
+  cursor: pointer;
+}
+
 #menu-button {
   font-family: 'Bungee Inline', cursive;a;
   font-size: 23px;
