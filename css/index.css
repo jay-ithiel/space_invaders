@@ -39,7 +39,7 @@ body {
   width: 200px;
   height: 145px;
 
-  font-family: 'Bungee Inline', cursive;a;
+  font-family: 'Bungee Inline', cursive;
   font-size: 20px;
   color: #fff;
 }
@@ -77,7 +77,7 @@ body {
 }
 
 #menu-button {
-  font-family: 'Bungee Inline', cursive;a;
+  font-family: 'Bungee Inline', cursive;
   font-size: 23px;
   color: #e7e7e7;
 
@@ -100,8 +100,6 @@ body {
   bottom: 100px;
   left: 300px;
 
-  /*opacity: 0.9;*/
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -111,8 +109,9 @@ body {
   height: 400px;
   width: 300px;
 
-  font-family: 'Bungee Inline', cursive;a;
+  font-family: 'Bungee Inline', cursive;
   font-size: 22px;
+  letter-spacing: 2px;
   color: #fff;
 
   border-radius: 10px;
@@ -132,26 +131,40 @@ body {
 }
 
 #about {
+  padding: 0 10px 0 10px;
+
   position: absolute;
   bottom: 100px;
   left: 300px;
-
-  opacity: 0.9;
 
   background-color: grey;
   height: 400px;
   width: 300px;
 
   font-family: 'Bungee Inline', cursive;
-  color: #fff;
+  letter-spacing: 1px;
+  line-height: 25px;
+  color: #000;
 
   text-align: center;
   border-radius: 10px;
 }
 
+#port-link {
+  color: #ffff6d;
+  text-decoration: none;
+  transition: color .15s ease-in;
+}
+
+#port-link:hover {
+  color: #fff;
+  transition: color .15s ease-in;
+}
+
 #close-about {
   margin-left: 200px;
   margin-top: 5px;
+  color: #fff;
 }
 
 #close-about:hover {
@@ -165,18 +178,20 @@ body {
 }
 
 #instructions {
+  padding: 0 15px 0 15px;
+
   position: absolute;
   bottom: 100px;
   left: 300px;
-
-  opacity: 0.9;
 
   background-color: grey;
   height: 400px;
   width: 300px;
 
   font-family: 'Bungee Inline', cursive;
-  color: #fff;
+  letter-spacing: 1px;
+  line-height: 25px;
+  color: #000;
 
   text-align: center;
   border-radius: 10px;
@@ -185,6 +200,7 @@ body {
 #close-instructions {
   margin-left: 200px;
   margin-top: 5px;
+  color: #fff;
 }
 
 #close-instructions:hover {

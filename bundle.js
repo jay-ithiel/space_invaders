@@ -235,46 +235,44 @@
 	
 	GameView.prototype.toggleAudio = function() {
 	  this.isMuted = this.isMuted ? false : true;
-	  // handle muting logit here;
 	};
 	
 	GameView.prototype.start = function() {
 	  this.interval = setInterval(() => {
-	
 	    if (!this.isPaused) {
-	      this.game.draw(this.ctx);
 	      this.addLivesText(this.ctx);
 	      this.addScoreText(this.ctx);
-	      this.game.moveInvaders();
 	      this.moveDefender();
+	      this.game.draw(this.ctx);
+	      this.game.moveInvaders();
 	      this.game.addUfo();
 	      this.game.step();
 	    }
 	  }, 10);
 	
+	  // Animate enemy sprites
 	  this.toggle = setInterval(() => {
-	    if (!this.isPaused) {
-	      this.game.toggleInvaders();
-	    }
+	    if (!this.isPaused) { this.game.toggleInvaders(); }
 	  }, 500);
-	
 	};
 	
 	GameView.prototype.stop = function() {
 	  clearInterval(this.interval);
 	  clearInterval(this.toggle);
 	
-	  this.interval = null;
-	  this.toggle = null;
+	  this.interval     = null;
+	  this.toggle       = null;
+	  this.rightPressed = false;
+	  this.leftPressed  = false;
+	  this.spacePressed = false;
+	  this.isPaused     = false;
+	  this.defender     = this.game.defender;
+	
 	  this.game = new Game({
 	    canvasSize: this.canvasSize,
 	    ctx: this.ctx,
 	    gameView: this
 	  });
-	  this.defender = this.game.defender;
-	  this.rightPressed = false;
-	  this.leftPressed = false;
-	  this.spacePressed = false;
 	};
 	
 	GameView.prototype.restart = function() {
