@@ -52,42 +52,40 @@
 	  canvas.width = 900;
 	
 	  const canvasSize = [canvas.width, canvas.height];
-	  const ctx = canvas.getContext('2d');
-	  const gameView = new GameView(ctx, canvasSize);
+	  const ctx        = canvas.getContext('2d');
+	  const gameView   = new GameView(ctx, canvasSize);
 	
 	  gameView.welcome();
 	
-	  const mainLogo = document.getElementById('main-logo');
-	  const playGameButton = document.getElementById('play-game');
-	  const gameOverImage = document.getElementById('game-over');
-	
-	  const menuButton = document.getElementById('menu-button');
-	  const menuContainer = document.getElementById('menu-container');
-	  const aboutButton = document.getElementById('about-button');
-	  const about = document.getElementById('about');
+	  const mainLogo           = document.getElementById('main-logo');
+	  const playGameButton     = document.getElementById('play-game');
+	  const gameOverImage      = document.getElementById('game-over');
+	  const menuButton         = document.getElementById('menu-button');
+	  const menuContainer      = document.getElementById('menu-container');
+	  const aboutButton        = document.getElementById('about-button');
+	  const about              = document.getElementById('about');
 	  const instructionsButton = document.getElementById('instructions-button');
-	  const instructions = document.getElementById('instructions');
-	  const resumeButton = document.getElementById('resume-button');
-	  const restartButton = document.getElementById('restart-button');
-	  const closeAbout = document.getElementById('close-about');
-	  const closeInstructions = document.getElementById('close-instructions');
-	
-	  const grunt = document.getElementById('grunt-1');
-	  const soldier = document.getElementById('soldier-1');
-	  const invader = document.getElementById('invader-1');
-	  const ufo = document.getElementById('ufo');
-	  const invaderInfo = document.getElementById('invader-info');
-	
-	  const audio = document.getElementById('audio');
-	  const mute = document.getElementById('mute');
+	  const instructions       = document.getElementById('instructions');
+	  const resumeButton       = document.getElementById('resume-button');
+	  const restartButton      = document.getElementById('restart-button');
+	  const closeAbout         = document.getElementById('close-about');
+	  const closeInstructions  = document.getElementById('close-instructions');
+	  const grunt              = document.getElementById('grunt-1');
+	  const soldier            = document.getElementById('soldier-1');
+	  const invader            = document.getElementById('invader-1');
+	  const ufo                = document.getElementById('ufo');
+	  const invaderInfo        = document.getElementById('invader-info');
+	  const audio              = document.getElementById('audio');
+	  const mute               = document.getElementById('mute');
+	  const splashInstruction  = document.getElementById('splash-instruction');
 	
 	  audio.addEventListener('click', () => {
 	    if (audio.className === 'hide') {
-	      audio.className = 'show';
-	      mute.className ='hide';
+	      audio.className   = 'show';
+	      mute.className    = 'hide';
 	    } else {
-	      audio.className = 'hide';
-	      mute.className = 'show';
+	      audio.className   = 'hide';
+	      mute.className    = 'show';
 	    }
 	
 	    gameView.toggleAudio();
@@ -95,27 +93,27 @@
 	
 	  mute.addEventListener('click', () => {
 	    if (audio.className === 'hide') {
-	      audio.className = 'show';
-	      mute.className ='hide';
+	      audio.className   = 'show';
+	      mute.className    = 'hide';
 	    } else {
-	      audio.className = 'hide';
-	      mute.className = 'show';
+	      audio.className   = 'hide';
+	      mute.className    = 'show';
 	    }
 	
 	    gameView.toggleAudio();
 	  });
 	
 	  playGameButton.addEventListener("click", () => {
-	    playGameButton.className = 'hide';
-	    mainLogo.className = 'hide';
-	    menuButton.className = '';
-	    gameOverImage.className = 'hide';
-	
-	    grunt.className = 'hide';
-	    soldier.className = 'hide';
-	    invader.className = 'hide';
-	    ufo.className = 'hide';
-	    invaderInfo.className = 'hide';
+	    menuButton.className        =     '';
+	    playGameButton.className    = 'hide';
+	    mainLogo.className          = 'hide';
+	    gameOverImage.className     = 'hide';
+	    grunt.className             = 'hide';
+	    soldier.className           = 'hide';
+	    invader.className           = 'hide';
+	    ufo.className               = 'hide';
+	    invaderInfo.className       = 'hide';
+	    splashInstruction.className = 'hide';
 	
 	    gameView.start();
 	  });
@@ -270,8 +268,8 @@
 	
 	  this.game = new Game({
 	    canvasSize: this.canvasSize,
-	    ctx: this.ctx,
-	    gameView: this
+	    gameView:   this,
+	    ctx:        this.ctx
 	  });
 	};
 	
@@ -302,8 +300,8 @@
 	    this.ctx.clearRect(0, 0, this.DIM_X, this.DIM_Y);
 	    this.ctx.fillStyle = '#000';
 	    this.ctx.fillRect(0, 0, this.game.DIM_X, this.game.DIM_Y);
-	    let gameOverImage = document.getElementById('game-over');
-	    let playGameButton = document.getElementById('play-game');
+	    let gameOverImage  = document.getElementById('game-over'),
+	        playGameButton = document.getElementById('play-game');
 	    playGameButton.className = '';
 	    gameOverImage.className = '';
 	  }, 600);
@@ -316,21 +314,18 @@
 	};
 	
 	GameView.prototype.addLivesText = function(ctx) {
-	  let x = this.game.DIM_X * .9;
-	  let y = this.game.DIM_Y * .05;
+	  let x = this.game.DIM_X * .9, y = this.game.DIM_Y * .05;
 	
 	  ctx.font = "20px Georgia";
 	  ctx.fillText(`LIVES: ${this.game.defenderLives}`, x, y);
 	};
 	
 	GameView.prototype.addMenu = function(ctx) {
-	  let x = this.game.DIM_X * .5;
-	  let y = this.game.DIM_Y * .1;
+	  let x = this.game.DIM_X * .5, y = this.game.DIM_Y * .1;
 	};
 	
 	GameView.prototype.addScoreText = function(ctx) {
-	  let x = this.game.DIM_X * .01;
-	  let y = this.game.DIM_Y * .05;
+	  let x = this.game.DIM_X * .01, y = this.game.DIM_Y * .05;
 	  ctx.find = "20px Georgia";
 	  ctx.fillText(`SCORE: ${this.game.score}`, x, y);
 	};

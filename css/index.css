@@ -28,7 +28,7 @@ body {
 
 #invader-info {
   position: absolute;
-  bottom: 130px;
+  bottom: 230px;
   left: 415px;
 
   display: flex;
@@ -50,13 +50,27 @@ body {
   padding: 0;
 }
 
+#splash-instruction {
+  position: absolute;
+  bottom: 170px;
+  left: 215px;
+  width: 500px;
+  height: 40px;
+
+  text-align: center;
+  font-family: 'Bungee Inline', cursive;
+  font-size: 23px;
+  color: #fff;
+  letter-spacing: 2px;
+}
+
 #audio {
   position: absolute;
   bottom: 10px;
   right: 10px;
 
-  height: 25px;
-  width: 25px;
+  height: 40px;
+  width: 40px;
 }
 
 #mute {
@@ -64,8 +78,8 @@ body {
   bottom: 10px;
   right: 10px;
 
-  height: 25px;
-  width: 25px;
+  height: 40px;
+  width: 40px;
 }
 
 #audio:hover {
@@ -225,17 +239,17 @@ body {
 
 #main-logo {
   position: absolute;
-  bottom: 300px;
-  left: 95px;
+  top: 10px;
+  left: 215px;
 
-  height: 300px;
-  width: 700px;
+  height: 210px;
+  width: 500px;
 }
 
 #grunt-1 {
   position: absolute;
   left: 355px;
-  bottom: 250px;
+  bottom: 350px;
 
   height: 30px;
   width: 30px;
@@ -244,7 +258,7 @@ body {
 #soldier-1 {
   position: absolute;
   left: 355px;
-  bottom: 210px;
+  bottom: 310px;
 
   height: 30px;
   width: 30px;
@@ -253,7 +267,7 @@ body {
 #invader-1 {
   position: absolute;
   left: 355px;
-  bottom: 170px;
+  bottom: 270px;
 
   height: 30px;
   width: 30px;
@@ -262,7 +276,7 @@ body {
 #ufo {
   position: absolute;
   left: 344px;
-  bottom: 126px;
+  bottom: 226px;
 
   height: 32px;
   width: 55px;
@@ -270,16 +284,38 @@ body {
 
 #play-game {
   position: absolute;
-  bottom: 50px;
+  bottom: 30px;
   left: 307px;
 
   z-index: 5;
-  height: 30px;
+  height: 50px;
   width: 300px;
+  transition: all .2s ease-in;
+  border: 2px solid #fff;
+  border-radius: 3px;
+
+  font-family: 'Bungee Inline', cursive;
+  font-size: 23px;
+  color: #fff;
+  letter-spacing: 2px;
 }
 
 #play-game:hover {
   cursor: pointer;
+  transition: all .2s ease-in;
+  background: rgba(255,255,255,0.4);
+}
+
+#play-game p {
+  width: 100%;
+  height: 100%;
+
+  position: absolute;
+  top: -23px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .hide {
