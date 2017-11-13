@@ -659,14 +659,10 @@
 	Game.prototype.enemyFire = function() {
 	  // fireChance increases as the horde gets wiped out
 	  let fireChance, invaderCount = this.invaderShips.length;
-	  if (invaderCount < 3) {
-	    fireChance = 100;
-	  } else if (invaderCount < 10) {
+	  if (invaderCount < 10) {
 	    fireChance = 500;
-	  } else if (invaderCount < 20) {
-	    fireChance = 1000;
-	  } else if (invaderCount < 30) {
-	    fireChance = 2000;
+	  } else if (invaderCount < 25) {
+	    fireChance = 1500;
 	  } else if (invaderCount < 40) {
 	    fireChance = 3000;
 	  } else if (invaderCount < 50) {
@@ -729,9 +725,7 @@
 	
 	Game.prototype.currentDefenderBullet = function() {
 	  this.bullets.forEach(bullet => {
-	    if (bullet.ship.name === 'defender') {
-	      return true;
-	    }
+	    if (bullet.ship.name === 'defender') return true;
 	  });
 	  return false;
 	};
