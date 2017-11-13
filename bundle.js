@@ -779,8 +779,8 @@
 	  this.side = options.side;
 	  this.currentBullet = false;
 	  this.isDead = false;
-	  this.hasTwoGuns = false;
-	  this.hasFourGuns = false;
+	  this.hasThreeGuns = false;
+	  this.hasFiveGuns = false;
 	  this.speedUp = false;
 	  this.speedUp2 = false;
 	  this.bulletsInPlay = [];
@@ -826,12 +826,12 @@
 	  this.deathImage();
 	
 	  this.game.defenderLives -= 1;
-	  this.hasTwoGuns = false;
+	  this.hasThreeGuns = false;
+	  this.hasFiveGuns = false;
 	  this.speedUp = false;
-	  if (this.game.defenderLives <= 0) {
-	    this.game.lose();
-	  }
-	
+	  this.speedUp2 = false;
+	  
+	  if (this.game.defenderLives < 0) this.game.lose();
 	  this.game.gameView.pause();
 	
 	  setTimeout(() => {
@@ -841,7 +841,6 @@
 	    ];
 	    this.vel = [0,0];
 	    this.img = document.getElementById('defender');
-	
 	    this.game.gameView.resume();
 	  }, 600);
 	
@@ -851,10 +850,7 @@
 	  let deathSound;
 	  
 	  if (this.name === 'defender') {
-	    if (!this.game.gameView.isMuted) {
-	      deathSound = './sounds/defender_death.mp3';
-	    }
-	
+	    if (!this.game.gameView.isMuted) deathSound = './sounds/defender_death.mp3';
 	    this.respawn();
 	  } else {
 	    this.game.score += this.killScore();
@@ -957,10 +953,10 @@
 	      if (object.power === 'life') {
 	        this.game.defenderLives++;
 	      } else if (object.power === 'gun') {
-	        if (this.hasTwoGuns) {
-	          this.hasFourGuns = true;
+	        if (this.hasThreeGuns) {
+	          this.hasFiveGuns = true;
 	        } else {
-	          this.hasTwoGuns = true;
+	          this.hasThreeGuns = true;
 	        }
 	      } else if (object.power === 'speed') {
 	        if (this.speedUp) {
@@ -1003,12 +999,13 @@
 	    bulletColor = "red";
 	  }
 	  
-	  if (this.hasFourGuns) {
+	  if (this.hasFiveGuns) {
 	    let bulletPositions = [
-	      [bulletPosX - 8, bulletPosY],
-	      [bulletPosX + 8, bulletPosY],
-	      [bulletPosX - 12, bulletPosY],
-	      [bulletPosX + 12, bulletPosY]
+	      [bulletPosX, bulletPosY],
+	      [bulletPosX - 8, bulletPosY +  8],
+	      [bulletPosX + 8, bulletPosY +  8],
+	      [bulletPosX - 14, bulletPosY + 16],
+	      [bulletPosX + 14, bulletPosY + 16]
 	    ];
 	    
 	    bulletPositions.forEach(pos => {
@@ -1029,41 +1026,31 @@
 	      this.game.bulletId++;
 	    });
 	
-	  } else if (this.hasTwoGuns) {
-	    let bullet1Pos = [bulletPosX - 8, bulletPosY];
-	    let bullet2Pos = [bulletPosX + 8, bulletPosY];
-	
-	    let bullet1 = new Bullet({
-	      id: this.game.bulletId,
-	      vel: bulletVel,
-	      pos: bullet1Pos,
-	      color: bulletColor,
-	      game: this.game,
-	      radius: 1,
-	      shipName: this.name,
-	      shipSide: this.side,
-	      ship: this
+	  } else if (this.hasThreeGuns) {
+	    let bulletPositions = [
+	      [bulletPosX, bulletPosY],
+	      [bulletPosX - 8, bulletPosY +  8],
+	      [bulletPosX + 8, bulletPosY +  8]
+	    ];
+	    
+	    bulletPositions.forEach(pos => {
+	      let bullet = new Bullet({
+	        id: this.game.bulletId,
+	        vel: bulletVel,
+	        pos: pos,
+	        color: bulletColor,
+	        game: this.game,
+	        radius: 1,
+	        shipName: this.name,
+	        shipSide: this.side,
+	        ship: this
+	      });
+	      
+	      this.game.bullets.push(bullet);
+	      this.bulletsInPlay.push(bullet);
+	      this.game.bulletId++;
 	    });
-	
-	    this.game.bulletId++;
-	
-	    let bullet2 = new Bullet({
-	      id: this.game.bulletId,
-	      vel: bulletVel,
-	      pos: bullet2Pos,
-	      color: bulletColor,
-	      game: this.game,
-	      radius: 1,
-	      shipName: this.name,
-	      shipSide: this.side,
-	      ship: this
-	    });
-	
-	    this.game.bullets.push(bullet1);
-	    this.game.bullets.push(bullet2);
-	
-	    this.bulletsInPlay.push(bullet1);
-	    this.bulletsInPlay.push(bullet2);
+	    
 	  } else {
 	    let bullet = new Bullet({
 	      id: this.game.bulletId,
@@ -1158,10 +1145,11 @@
 	
 	Ship.prototype.power = function(impulse) {
 	  if (this.speedUp) {
+	    let speed = this.speedUp2 ? 10 : 5;
 	    if (impulse[0] < 0) {
-	      impulse[0] = -5;
+	      impulse[0] = -speed;
 	    } else {
-	      impulse[0] = 5;
+	      impulse[0] = speed;
 	    }
 	  }
 	
@@ -1531,7 +1519,7 @@
 	      if (this.power === 'life') {
 	        this.game.defenderLives++;
 	      } else if (this.power === 'gun') {
-	        this.ship.hasTwoGuns = true;
+	        this.ship.hasThreeGuns = true;
 	      } else if (this.power === 'speed') {
 	        this.ship.speedUp = true;
 	      }
