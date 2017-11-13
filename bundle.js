@@ -1061,11 +1061,25 @@
 	
 	
 	  if (!this.game.gameView.isMuted) {
-	    let shootSound = new Note(1300.00);
-	    shootSound.start();
-	    setTimeout(() => {
-	      shootSound.stop();
-	    }, 200);
+	    // let shootSound = new Note(1300.00);
+	    // shootSound.start();
+	    // setTimeout(() => {
+	    //   shootSound.stop();
+	    // }, 200);
+	    let shootSound = '';
+	    if (this.name === 'defender') {
+	      shootSound = './sounds/defender_gun2.wav';
+	    } else if (this.name === 'ufo') {
+	      shootSound = './sounds/ufo_gun.wav';
+	    } else {
+	      shootSound = './sounds/defender_gun.wav'
+	    }
+	    
+	    var sound = new Howl({
+	      src: [shootSound]
+	    });
+	
+	    sound.play();
 	  }
 	
 	    this.game.bulletId++;
