@@ -780,7 +780,9 @@
 	  this.currentBullet = false;
 	  this.isDead = false;
 	  this.hasTwoGuns = false;
+	  this.hasFourGuns = false;
 	  this.speedUp = false;
+	  this.speedUp2 = false;
 	  this.bulletsInPlay = [];
 	
 	  MovingObject.call(this, options);
@@ -799,18 +801,6 @@
 	};
 	
 	Ship.prototype.draw = function(ctx) {
-	  // Will use images later, but for dev purposes, use circles
-	  // ctx.fillStyle = "#ffffff";
-	  // ctx.beginPath();
-	  // ctx.arc(
-	  //   this.pos[0],
-	  //   this.pos[1],
-	  //   this.radius,
-	  //   0,
-	  //   2 * Math.PI
-	  // );
-	  // ctx.fill();
-	
 	  if (this.name === 'ufo') {
 	    let x = this.pos[0] - 26;
 	    let y = this.pos[1] - 3;
@@ -862,11 +852,6 @@
 	  
 	  if (this.name === 'defender') {
 	    if (!this.game.gameView.isMuted) {
-	      // deathSound = new Note(1222.00);
-	      // deathSound.start();
-	      // setTimeout(() => {
-	      //   deathSound.stop();
-	      // }, 200);
 	      deathSound = './sounds/defender_death.mp3';
 	    }
 	
@@ -889,11 +874,6 @@
 	    }, 200);
 	
 	    if (!this.game.gameView.isMuted) {
-	      // deathSound = new Note(1546.50);
-	      // deathSound.start();
-	      // setTimeout(() => {
-	      //   deathSound.stop();
-	      // }, 200);
 	      if (this.name === 'ufo') {
 	        deathSound = './sounds/ufo_death.wav';
 	      } else {
@@ -903,7 +883,8 @@
 	  }
 	  
 	  var sound = new Howl({
-	    src: [deathSound]
+	    src: [deathSound],
+	    volume: 0.5,
 	  });
 	
 	  sound.play();
@@ -966,24 +947,27 @@
 	};
 	
 	Ship.prototype.collideWith = function(object) {
-	  if (this.side === object.shipSide) {
-	    return;
-	  }
+	  if (this.side === object.shipSide) return;
 	
 	  this.bulletsInPlay.shift();
-	  if (this.bulletsInPlay.length === 0) {
-	    this.currentBullet = false;
-	  }
+	  if (this.bulletsInPlay.length === 0) this.currentBullet = false;
 	
 	  if (object.type === 'powerUp') {
 	    if (this.name === 'defender') {
 	      if (object.power === 'life') {
 	        this.game.defenderLives++;
 	      } else if (object.power === 'gun') {
-	        this.hasTwoGuns = true;
+	        if (this.hasTwoGuns) {
+	          this.hasFourGuns = true;
+	        } else {
+	          this.hasTwoGuns = true;
+	        }
 	      } else if (object.power === 'speed') {
-	        // handle speed logic
-	        this.speedUp = true;
+	        if (this.speedUp) {
+	          this.speedUp2 = true;
+	        } else {
+	          this.speedUp = true;
+	        }
 	      }
 	    }
 	  }
@@ -1018,8 +1002,34 @@
 	  } else if (this.name === 'ufo') {
 	    bulletColor = "red";
 	  }
+	  
+	  if (this.hasFourGuns) {
+	    let bulletPositions = [
+	      [bulletPosX - 8, bulletPosY],
+	      [bulletPosX + 8, bulletPosY],
+	      [bulletPosX - 12, bulletPosY],
+	      [bulletPosX + 12, bulletPosY]
+	    ];
+	    
+	    bulletPositions.forEach(pos => {
+	      let bullet = new Bullet({
+	        id: this.game.bulletId,
+	        vel: bulletVel,
+	        pos: pos,
+	        color: bulletColor,
+	        game: this.game,
+	        radius: 1,
+	        shipName: this.name,
+	        shipSide: this.side,
+	        ship: this
+	      });
+	      
+	      this.game.bullets.push(bullet);
+	      this.bulletsInPlay.push(bullet);
+	      this.game.bulletId++;
+	    });
 	
-	  if (this.hasTwoGuns) {
+	  } else if (this.hasTwoGuns) {
 	    let bullet1Pos = [bulletPosX - 8, bulletPosY];
 	    let bullet2Pos = [bulletPosX + 8, bulletPosY];
 	
@@ -1073,11 +1083,6 @@
 	
 	
 	  if (!this.game.gameView.isMuted) {
-	    // let shootSound = new Note(1300.00);
-	    // shootSound.start();
-	    // setTimeout(() => {
-	    //   shootSound.stop();
-	    // }, 200);
 	    let shootSound = '';
 	    if (this.name === 'defender') {
 	      shootSound = './sounds/defender_gun2.wav';
@@ -1088,7 +1093,8 @@
 	    }
 	    
 	    var sound = new Howl({
-	      src: [shootSound]
+	      src: [shootSound],
+	      volume: 0.3,
 	    });
 	
 	    sound.play();
