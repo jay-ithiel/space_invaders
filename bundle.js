@@ -238,10 +238,10 @@
 	GameView.prototype.start = function() {
 	  this.interval = setInterval(() => {
 	    if (!this.isPaused) {
+	      this.game.draw(this.ctx);
 	      this.addLivesText(this.ctx);
 	      this.addScoreText(this.ctx);
 	      this.moveDefender();
-	      this.game.draw(this.ctx);
 	      this.game.moveInvaders();
 	      this.game.addUfo();
 	      this.game.step();
@@ -314,9 +314,9 @@
 	};
 	
 	GameView.prototype.addLivesText = function(ctx) {
-	  let x = this.game.DIM_X * .9, y = this.game.DIM_Y * .05;
+	  let x = this.game.DIM_X * .87, y = this.game.DIM_Y * .05;
 	
-	  ctx.font = "20px Georgia";
+	  ctx.font = "23px Bungee Inline";
 	  ctx.fillText(`LIVES: ${this.game.defenderLives}`, x, y);
 	};
 	
