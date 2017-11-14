@@ -2,7 +2,7 @@
 
 This is a remake of the classic arcade game, Space Invaders.
 
-[Play Space Invaders][gh-pages]
+[Space Invaders live][gh-pages]
 [gh-pages]: https://jay-ithiel.github.io/space_invaders/
 
 ![space invaders gameplay](images/space_invaders.png)
