@@ -241,6 +241,7 @@
 	      this.game.draw(this.ctx);
 	      this.addLivesText(this.ctx);
 	      this.addScoreText(this.ctx);
+	      this.addLevelText(this.ctx);
 	      this.moveDefender();
 	      this.game.moveInvaders();
 	      this.game.addUfo();
@@ -250,7 +251,7 @@
 	
 	  // Animate enemy sprites
 	  this.toggle = setInterval(() => {
-	    if (!this.isPaused) { this.game.toggleInvaders(); }
+	    if (!this.isPaused) this.game.toggleInvaders();
 	  }, 500);
 	};
 	
@@ -326,9 +327,14 @@
 	
 	GameView.prototype.addScoreText = function(ctx) {
 	  let x = this.game.DIM_X * .01, y = this.game.DIM_Y * .05;
-	  ctx.find = "20px Georgia";
+	  // ctx.find = "20px Georgia";
 	  ctx.fillText(`SCORE: ${this.game.score}`, x, y);
 	};
+	
+	GameView.prototype.addLevelText = function(ctx) {
+	  let x = this.game.DIM_X * .01, y = this.game.DIM_Y * .95;
+	  ctx.fillText(`LEVEL: ${this.game.level}`, x, y);
+	}
 	
 	GameView.prototype.bindKeyHandlers = function() {
 	  const defender = this.defender;
@@ -405,6 +411,7 @@
 	  this.defender = null;
 	  this.defenderLives = 3;
 	  this.score = 0;
+	  this.level = 1;
 	  this.invaderShips = [];
 	  this.ufo = null;
 	  this.bullets = [];
@@ -634,6 +641,7 @@
 	        this.refreshShields();
 	        this.addInvaderShips();
 	        this.defenderLives++;
+	        this.level++;
 	      }
 	    }, 1000);
 	  }
