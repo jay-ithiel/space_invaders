@@ -38,7 +38,6 @@ export default class Ufo extends Invader {
 
   _gunSound() {
     if (this.game.gameView.isMuted) return;
-
     new Howl({
       src: ['./sounds/ufo_gun.wav'],
       volume: 0.3,
@@ -46,7 +45,7 @@ export default class Ufo extends Invader {
   }
 
   dropPowerUp(pos) {
-    const powerUp = new PowerUp({
+    this.game.powerUps.push(new PowerUp({
       vel: [0, 4],
       pos: pos,
       radius: 5,
@@ -54,8 +53,16 @@ export default class Ufo extends Invader {
       game: this.game,
       ship: this,
       ctx: this.game.ctx
-    });
-
-    this.game.powerUps.push(powerUp);
+    }));
+    // const powerUp = new PowerUp({
+    //   vel: [0, 4],
+    //   pos: pos,
+    //   radius: 5,
+    //   color: '#ff00ff',
+    //   game: this.game,
+    //   ship: this,
+    //   ctx: this.game.ctx
+    // });
+    // this.game.powerUps.push(powerUp);
   }
 }

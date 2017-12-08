@@ -42,10 +42,6 @@ export default class Infantry extends Invader {
     if (this.isDead) return;
   }
 
-  reverseAllInvaders() {
-    // sounds like it belongs in the game class
-  }
-
   reverse() {
     let newVel = Math.abs(this.vel[0]) + 0.02;
     if (this.vel[0] > 0) {
