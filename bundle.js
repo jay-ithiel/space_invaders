@@ -265,13 +265,14 @@
 	  this.leftPressed  = false;
 	  this.spacePressed = false;
 	  this.isPaused     = false;
-	  this.defender     = this.game.defender;
 	
 	  this.game = new Game({
 	    canvasSize: this.canvasSize,
 	    gameView:   this,
 	    ctx:        this.ctx
 	  });
+
+	  this.defender     = this.game.defender;
 	};
 	
 	GameView.prototype.restart = function() {
